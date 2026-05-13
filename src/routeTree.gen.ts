@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainersRouteImport } from './routes/trainers'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const TrainersRoute = TrainersRouteImport.update({
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
   '/trainers': typeof TrainersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
   '/trainers': typeof TrainersRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
   '/trainers': typeof TrainersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/programs' | '/trainers'
+  fullPaths: '/' | '/about' | '/membership' | '/programs' | '/trainers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/programs' | '/trainers'
-  id: '__root__' | '/' | '/about' | '/programs' | '/trainers'
+  to: '/' | '/about' | '/membership' | '/programs' | '/trainers'
+  id: '__root__' | '/' | '/about' | '/membership' | '/programs' | '/trainers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  MembershipRoute: typeof MembershipRoute
   ProgramsRoute: typeof ProgramsRoute
   TrainersRoute: typeof TrainersRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/programs'
       fullPath: '/programs'
       preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  MembershipRoute: MembershipRoute,
   ProgramsRoute: ProgramsRoute,
   TrainersRoute: TrainersRoute,
 }
