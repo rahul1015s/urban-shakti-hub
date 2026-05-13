@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Header, Footer, FloatingActions } from "@/components/site/Layout";
 
 function NotFoundComponent() {
   return (
