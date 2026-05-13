@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrainersRouteImport } from './routes/trainers'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TrainersRoute = TrainersRouteImport.update({
+  id: '/trainers',
+  path: '/trainers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/programs': typeof ProgramsRoute
+  '/trainers': typeof TrainersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/programs': typeof ProgramsRoute
+  '/trainers': typeof TrainersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/programs': typeof ProgramsRoute
+  '/trainers': typeof TrainersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/programs'
+  fullPaths: '/' | '/about' | '/programs' | '/trainers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/programs'
-  id: '__root__' | '/' | '/about' | '/programs'
+  to: '/' | '/about' | '/programs' | '/trainers'
+  id: '__root__' | '/' | '/about' | '/programs' | '/trainers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ProgramsRoute: typeof ProgramsRoute
+  TrainersRoute: typeof TrainersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/trainers': {
+      id: '/trainers'
+      path: '/trainers'
+      fullPath: '/trainers'
+      preLoaderRoute: typeof TrainersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programs': {
       id: '/programs'
       path: '/programs'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ProgramsRoute: ProgramsRoute,
+  TrainersRoute: TrainersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
